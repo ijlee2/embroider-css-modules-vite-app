@@ -14,9 +14,12 @@ const root = 'node_modules/.embroider/rewritten-app';
 
 export default defineConfig({
   css: {
-    modules: {
-      generateScopedName: 'embroider-css-modules__[sha512:hash:base64:5]',
+    lightningcss: {
+      cssModules: {
+        pattern: 'embroider-css-modules__[hash]-[local]',
+      },
     },
+    transformer: 'lightningcss',
   },
   root,
   // esbuild in vite does not support decorators
@@ -47,6 +50,7 @@ export default defineConfig({
     },
   },
   build: {
+    cssMinify: 'lightningcss',
     outDir: resolve(process.cwd(), 'dist'),
     rollupOptions: {
       input: {
