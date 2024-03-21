@@ -13,6 +13,11 @@ import { defineConfig } from 'vite';
 const root = 'node_modules/.embroider/rewritten-app';
 
 export default defineConfig({
+  css: {
+    modules: {
+      generateScopedName: 'embroider-css-modules__[sha512:hash:base64:5]',
+    },
+  },
   root,
   // esbuild in vite does not support decorators
   esbuild: false,

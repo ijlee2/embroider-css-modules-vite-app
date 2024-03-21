@@ -4,6 +4,12 @@ module.exports = {
   plugins: ['prettier-plugin-ember-template-tag'],
   overrides: [
     {
+      files: '*.css.d.ts',
+      options: {
+        quoteProps: 'preserve',
+      },
+    },
+    {
       files: '*.{cjs,cts,js,mjs,mts,ts}',
       options: {
         printWidth: 80,
