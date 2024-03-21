@@ -1,0 +1,36 @@
+import { autoRegister } from 'js-reporters';
+import qunit from 'qunit';
+
+export function setupQunit() {
+  if (hasFlag('ci')) {
+    const runner = autoRegister();
+    const tap = qunit.reporters.tap;
+    tap.init(runner, { log: console.info });
+
+    // eslint-disable-next-line no-undef
+    QUnit.config.urlConfig.push({
+      id: 'smoke_tests',
+      label: 'Enable Smoke Tests',
+      tooltip: 'Enable Smoke Tests',
+    });
+
+    // eslint-disable-next-line no-undef
+    QUnit.config.urlConfig.push({
+      id: 'ci',
+      label: 'Enable CI Mode',
+      tooltip:
+        'CI mode makes tests run faster by sacrificing UI responsiveness',
+    });
+
+    console.log(`[HARNESS] ci=${hasFlag('ci')}`);
+  }
+
+  qunit.done((details) => {
+    console.log(JSON.stringify({ ...details, type: '[HARNESS] done' }));
+  });
+}
+
+function hasFlag(flag) {
+  let location = typeof window !== 'undefined' && window.location;
+  return location && new RegExp(`[?&]${flag}`).test(location.search);
+}
